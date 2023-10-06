@@ -12,88 +12,88 @@ skyline=70
 lt=0
 dt=0
 function update_time()
-		t=time()
-		dt=t-lt
-		lt=t
+	t=time()
+	dt=t-lt
+	lt=t
 end
 
 function draw_road(curve)
-  rectfill(0,skyline+1,127,127,sget(8,1))
-		for y=skyline+1,127 do
-		  --cs: curve center
-				cs=((127-y)/64)^2*curve
-				--s: horizontal scale 
-				s=y-64
-				--a: map step ratio
-				a=8/(y-63)
-				
-		  tline(63-s-cs,y,63-cs,y,0,0,a,0)
-		  tline(64+s-cs,y,64-cs,y,0,0,a,0)
-		end
+	rectfill(0,skyline+1,127,127,sget(8,1))
+	for y=skyline+1,127 do
+		--cs: curve center
+		cs=((127-y)/64)^2*curve
+		--s: horizontal scale 
+		s=y-64
+		--a: map step ratio
+		a=8/(y-63)
+		
+		tline(63-s-cs,y,63-cs,y,0,0,a,0)
+		tline(64+s-cs,y,64-cs,y,0,0,a,0)
+	end
 end
 
 function draw_sky()
-		rectfill(0,0,127,skyline,12)
+	rectfill(0,0,127,skyline,12)
 end
 
 function draw_movement()
-		for y=skyline+1,127 do
-    if shadow(y,distance) then
-  		  for x=0,127 do
-		      pset(x,y,ccomp[pget(x,y)])
-		    end
-		  end
+	for y=skyline+1,127 do
+		if shadow(y,distance) then
+			for x=0,127 do
+				pset(x,y,ccomp[pget(x,y)])
+			end
 		end
+	end
 end
 
 function draw_tree()
-		x=64
-		xs=24
-		ys=24
-		h=sin(distance/10)*32+93
-		s=max(-distort(h+1)/4+1 ,0)
-		sh=(h-61)/63
-		for l=0,ys-1 do
-		  y=(l-(ys-1))*sh+h
-				tline(x-xs/2*sh,y,xs-1+x-xs/2*sh,y,0,8+((y-h)/sh+ys-1)/8,1/8/sh,0)
-		end
+	x=64
+	xs=24
+	ys=24
+	h=sin(distance/10)*32+93
+	s=max(-distort(h+1)/4+1 ,0)
+	sh=(h-61)/63
+	for l=0,ys-1 do
+		y=(l-(ys-1))*sh+h
+		tline(x-xs/2*sh,y,xs-1+x-xs/2*sh,y,0,8+((y-h)/sh+ys-1)/8,1/8/sh,0)
+	end
 end
 
 distance=0
 function _update60()
-		update_time()
-		distance+=dt*4
+	update_time()
+	distance+=dt*4
 end
 
 ldt=0
 function _draw()
-		cls()
-		draw_road(sin(distance/50)*64)
-		draw_sky()
-		draw_movement()
-		draw_tree()
-		
-		print(flr(1/(time()-ldt)))
-		ldt=time()
+	cls()
+	draw_road(sin(distance/50)*64)
+	draw_sky()
+	draw_movement()
+	draw_tree()
+	
+	print(flr(1/(time()-ldt)))
+	ldt=time()
 end
 -->8
 cwidth=0.4
 
 function shadow(y, dist)
-		d=distort(y)
-		f=flr((d+dist)/cwidth)
-		return f%2==0
+	d=distort(y)
+	f=flr((d+dist)/cwidth)
+	return f%2==0
 end
 
 function distort(y)
-		k=(128-y)/128/2.3
-		d=sin(-k)/cos(k)
-		return d
+	k=(128-y)/128/2.3
+	d=sin(-k)/cos(k)
+	return d
 end
 
 function undistort(y)
-		return 128-(atan2(1,-y))*2.3*128
-end	
+	return 128-(atan2(1,-y))*2.3*128
+end 
 __gfx__
 00000000222226666666666666677666000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000bbbbbbbbbbbbbbbbbbbbbbbb000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
